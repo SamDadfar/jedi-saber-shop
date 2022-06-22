@@ -10,4 +10,6 @@ public interface OrderService {
     OrdersEntity seveOrder(OrderModel orderModel);
 
     List<OrdersEntity> findAll();
+
+    OrdersEntity findById(long id);
 }

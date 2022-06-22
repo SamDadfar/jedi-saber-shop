@@ -1,13 +1,15 @@
 package nl.hybrit.lightsaber.shop.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
-
-import static nl.hybrit.lightsaber.shop.services.impl.PadawanServiceImpl.*;
 
 @Getter
 @Setter
@@ -21,39 +23,55 @@ public class PadawanEntity {
 
     private Integer force;
     private Boolean jedi;
-    private Integer age;
+    @Column(name = "dob")
+    private LocalDate dateOfBirth;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinTable(name = "padawan_saber",
             joinColumns = {@JoinColumn(name = "fk_padawan_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "fk_saber_id", referencedColumnName = "id")})
     private List<SaberEntity> sabers;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @MapsId
     @JoinColumn(name = "id")
     private UserEntity user;
 
-    public PadawanEntity(Integer age) {
-        this.age = age;
+    public final static float ENOUGH_FORCE_AS_JEDI = 93.2f;
+    public final static int ADULT_AGE = 18;
+    public final static int JEDI_DISSOLVE_CONSTANT = 140;
+
+    @Default
+    public PadawanEntity(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
         this.force = getForce();
-        this.jedi = this.isAdult();
+        this.jedi = isJedi();
+    }
+
+    @JsonIgnore
+    public Integer getAge() {
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(this.dateOfBirth, currentDate).getYears();
     }
 
     public Integer getForce() {
-        return this.age * 10;
+        return getAge() * 10;
     }
 
-    public boolean isAdult() {
-        return this.age > ADULT_AGE;
+    public Boolean hasUnlimitedForce() {
+        return getAge() > ADULT_AGE;
     }
 
-    public boolean isJedi() {
+    public Boolean isAdult() {
+        return getAge() > 18;
+    }
+
+    public Boolean isJedi() {
         return this.force > ENOUGH_FORCE_AS_JEDI;
     }
 
-    public boolean isDissolve() {
-        return this.getAge() >= JEDI_DISSOLVE_CONSTANT;
+    public Boolean isDissolve() {
+        return getAge() >= JEDI_DISSOLVE_CONSTANT;
     }
 
 }

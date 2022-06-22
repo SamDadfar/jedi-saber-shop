@@ -17,13 +17,16 @@ public class SaberEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "saber_id")
     private Integer saberId;
     private String name;
     private Integer available;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "crystal_type")
     private CrystalEnum crystalType;
 
+    @Column(name = "crystal_name")
     private String crystalName;
 
 }

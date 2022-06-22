@@ -1,4 +1,4 @@
-package nl.hybrit.lightsaber.shop.controller.model;
+package nl.hybrit.lightsaber.shop.controller.model.response;
 
 import lombok.Getter;
 import lombok.Setter;

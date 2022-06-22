@@ -22,8 +22,8 @@ public class PadawanUserModel {
     private String password;
     @Email
     private String email;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    private Set<String> role;
+    private Set<String> roles;
 }

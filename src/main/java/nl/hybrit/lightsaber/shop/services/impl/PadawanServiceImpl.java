@@ -2,17 +2,20 @@ package nl.hybrit.lightsaber.shop.services.impl;
 
 import nl.hybrit.lightsaber.shop.controller.model.PadawanUserModel;
 import nl.hybrit.lightsaber.shop.mapper.PadawanMapper;
+import nl.hybrit.lightsaber.shop.mapper.UserMapper;
 import nl.hybrit.lightsaber.shop.repository.PadawanRepository;
 import nl.hybrit.lightsaber.shop.repository.RoleRepository;
 import nl.hybrit.lightsaber.shop.repository.UserRepository;
 import nl.hybrit.lightsaber.shop.repository.enums.RoleType;
 import nl.hybrit.lightsaber.shop.repository.model.PadawanEntity;
 import nl.hybrit.lightsaber.shop.repository.model.Role;
+import nl.hybrit.lightsaber.shop.repository.model.UserEntity;
 import nl.hybrit.lightsaber.shop.services.PadawanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,15 +29,15 @@ public class PadawanServiceImpl implements PadawanService {
     @Autowired
     private PadawanRepository padawanRepository;
     @Autowired
-    private PadawanMapper mapper;
+    private PadawanMapper padawanMapper;
+    @Autowired
+    private UserMapper userMapper;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
 
-    public final static float ENOUGH_FORCE_AS_JEDI = 93.2f;
-    public final static int ADULT_AGE = 18;
-    public final static int JEDI_DISSOLVE_CONSTANT = 140;
+
 
     @Override
     public List<PadawanEntity> findAll() {
@@ -50,9 +53,12 @@ public class PadawanServiceImpl implements PadawanService {
     }
 
     @Override
+//    @Transactional
     public PadawanEntity save(PadawanUserModel model) {
-        PadawanEntity entity = mapper.map(model);
-        entity.getUser().getRoles().addAll(setUserRoles(model.getRole()));
+        PadawanEntity entity = padawanMapper.map(model);
+        entity.setSabers(new ArrayList<>());
+        entity.getUser().getRoles().addAll(setUserRoles(model.getRoles()));
+        entity.getUser().setEnabled(true);
         return padawanRepository.save(entity);
     }
 
@@ -64,8 +70,8 @@ public class PadawanServiceImpl implements PadawanService {
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
-                if (role.equalsIgnoreCase("admin")) {
-                    Role adminRole = roleRepository.findByName(RoleType.ADMIN)
+                if (RoleType.fromValue(role) == RoleType.ADMIN_JEDI) {
+                    Role adminRole = roleRepository.findByName(RoleType.ADMIN_JEDI)
                             .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                     roles.add(adminRole);
                 } else {

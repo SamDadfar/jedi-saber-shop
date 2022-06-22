@@ -18,14 +18,14 @@
             <column name="name" type="VARCHAR(45)">
                 <constraints nullable="false"/>
             </column>
-            <column name="saberId" type="BIGINT(5)">
+            <column name="saber_id" type="BIGINT(5)">
                 <constraints nullable="false"/>
             </column>
             <column name="available" type="BIGINT(4)">
                 <constraints nullable="false"/>
             </column>
-            <column name="crystalType" type="VARCHAR(55)"/>
-            <column name="crystalName" type="VARCHAR(55)"/>
+            <column name="crystal_type" type="VARCHAR(55)"/>
+            <column name="crystal_name" type="VARCHAR(55)"/>
         </createTable>
     </changeSet>
     <changeSet author="Sam" id="create_padawan_table">
@@ -35,19 +35,82 @@
             </not>
         </preConditions>
         <createTable tableName="padawan">
-            <column autoIncrement="true" name="user_id" type="BIGINT(11)">
-                <constraints primaryKey="true"/>
+            <column autoIncrement="true" name="id" type="BIGINT(11)">
+                <constraints primaryKey="true" referencedTableName="user"/>
             </column>
             <column name="force" type="BIGINT(5)">
                 <constraints nullable="false"/>
             </column>
-            <column name="jedi" type="TINYINT(1)" defaultValue="0"/>
-            <column name="age" type="BIGINT(3)">
+            <column name="jedi" type="boolean" defaultValueBoolean="false"/>
+            <column name="dob" type="date">
                 <constraints nullable="false"/>
             </column>
-            <column name="crystalType" type="VARCHAR(55)"/>
-            <column name="crystalName" type="VARCHAR(55)"/>
         </createTable>
+    </changeSet>
+    <changeSet author="sam" id="create_orders_table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="orders"/>
+            </not>
+        </preConditions>
+        <createTable tableName="orders">
+            <column autoIncrement="true" name="id" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="padawan_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="padawan_id"
+                                 constraintName="FK_PADAWAN_ID_ORDER"
+                                 referencedTableName="padawan" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet author="sam" id="create_order_saber_table">
+        <preConditions>
+            <not>
+                <tableExists tableName="order_saber"/>
+            </not>
+        </preConditions>
+        <createTable tableName="order_saber">
+            <column name="fk_order_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_saber_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="order_saber" columnNames="fk_order_id, fk_saber_id"/>
+        <addForeignKeyConstraint baseTableName="order_saber" baseColumnNames="fk_order_id"
+                                 constraintName="FK_ORDER_ID_ORDER_SABER"
+                                 referencedTableName="orders" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="order_saber" baseColumnNames="fk_saber_id"
+                                 constraintName="FK_SABER_ID_ORDER_SABER"
+                                 referencedTableName="saber" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet author="sam" id="create_padawan_saber_table">
+        <preConditions>
+            <not>
+                <tableExists tableName="padawan_saber"/>
+            </not>
+        </preConditions>
+        <createTable tableName="padawan_saber">
+            <column name="fk_padawan_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fk_saber_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="padawan_saber" columnNames="fk_padawan_id, fk_saber_id"/>
+        <addForeignKeyConstraint baseTableName="padawan_saber" baseColumnNames="fk_padawan_id"
+                                 constraintName="FK_PADAWAN_ID_PADAWAN_SABER"
+                                 referencedTableName="padawan" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="padawan_saber" baseColumnNames="fk_saber_id"
+                                 constraintName="FK_SABER_ID_PADAWAN_SABER"
+                                 referencedTableName="saber" referencedColumnNames="id"/>
     </changeSet>
     <changeSet id="create_user_table" author="Sam">
         <preConditions onFail="MARK_RAN">
@@ -66,7 +129,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="email" type="VARCHAR(255)"/>
-            <column name="enabled" type="TINYINT(1)" defaultValue="1"/>
+            <column name="enabled" type="boolean" defaultValueBoolean="false"/>
         </createTable>
     </changeSet>
     <changeSet id="create_role_table" author="Sam">
@@ -84,7 +147,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="create_userRoles_table" author="Sam">
+    <changeSet id="create_user_roles_table" author="Sam">
         <preConditions>
             <not>
                 <tableExists tableName="user_roles"/>

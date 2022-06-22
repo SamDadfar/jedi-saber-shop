@@ -11,6 +11,7 @@ import nl.hybrit.lightsaber.shop.repository.model.SaberEntity;
 import nl.hybrit.lightsaber.shop.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private SaberRepository saberRepository;
 
     @Override
+    @Transactional
     public OrdersEntity seveOrder(OrderModel model) {
         OrdersEntity orderEntity = new OrdersEntity();
         PadawanEntity padawan = padawanRepository.findById(model.getPadawanId()).orElseThrow(IllegalArgumentException::new);
@@ -51,5 +53,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrdersEntity> findAll() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public OrdersEntity findById(long id) {
+        return orderRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 }

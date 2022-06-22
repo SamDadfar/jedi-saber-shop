@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import nl.hybrit.lightsaber.shop.repository.enums.RoleType;
 
@@ -16,6 +17,7 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     @Enumerated(EnumType.STRING)

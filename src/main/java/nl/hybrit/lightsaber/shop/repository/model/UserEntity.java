@@ -21,7 +21,7 @@ import java.util.Set;
                 @UniqueConstraint(columnNames = "email")})
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
