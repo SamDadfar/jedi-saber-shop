@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet author="Sam" id="create_saber_table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="saber"/>
+            </not>
+        </preConditions>
+        <createTable tableName="saber">
+            <column autoIncrement="true" name="id" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="saberId" type="BIGINT(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="available" type="BIGINT(4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crystalType" type="VARCHAR(55)"/>
+            <column name="crystalName" type="VARCHAR(55)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Sam" id="create_padawan_table">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="padawan"/>
+            </not>
+        </preConditions>
+        <createTable tableName="padawan">
+            <column autoIncrement="true" name="user_id" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="force" type="BIGINT(5)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="jedi" type="TINYINT(1)" defaultValue="0"/>
+            <column name="age" type="BIGINT(3)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="crystalType" type="VARCHAR(55)"/>
+            <column name="crystalName" type="VARCHAR(55)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_user_table" author="Sam">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="user"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user">
+            <column name="id" autoIncrement="true" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="VARCHAR(45)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="enabled" type="TINYINT(1)" defaultValue="1"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_role_table" author="Sam">
+        <preConditions>
+            <not>
+                <tableExists tableName="role"/>
+            </not>
+        </preConditions>
+        <createTable tableName="role">
+            <column name="id" type="BIGINT(11)" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="create_userRoles_table" author="Sam">
+        <preConditions>
+            <not>
+                <tableExists tableName="user_roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="user_roles">
+            <column name="user_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT(11)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey tableName="user_roles" columnNames="user_id, role_id"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="role_id"
+                                 constraintName="FK_ROLE_ID_USER_ROLES"
+                                 referencedTableName="role" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="user_roles" baseColumnNames="user_id"
+                                 constraintName="FK_USER_ID_USER_ROLES"
+                                 referencedTableName="user" referencedColumnNames="id"/>
+    </changeSet>
+</databaseChangeLog>

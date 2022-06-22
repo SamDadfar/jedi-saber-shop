@@ -1,0 +1,11 @@
+<sabers>
+    <saber>
+        <id>1111</id>
+        <name>sith saber</name>
+        <available>10</available>
+        <crystalEnum>
+            <name>Kadril saber</name>
+            <color>blue</color>
+        </crystalEnum>
+    </saber>
+</sabers>

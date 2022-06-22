@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.hybrit.nl/jedi_saber_shop/saber_message/v1.0"
+            targetNamespace="http://www.hybrit.nl/jedi_saber_shop/saber_message/v1.0" elementFormDefault="qualified">
+    <xsd:simpleType name="saber_id">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="99999999"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="name">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="100"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="saber_available">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="1"/>
+            <xsd:maxInclusive value="1000"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="saber_crystal">
+        <xsd:annotation>
+            <xsd:documentation>crystalEnum details</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="color" type="crystal_type"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="crystal_type">
+        <xsd:annotation>
+            <xsd:documentation>crystal type enumeration</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="blue"/>
+            <xsd:enumeration value="green"/>
+            <xsd:enumeration value="red"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:element name="sabers">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="saber" maxOccurs="unbounded">
+                    <xsd:complexType>
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                Demonstrated a saber which has id, name, available and its crystalEnum details
+                            </xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:sequence>
+                            <xsd:element name="id" type="saber_id"/>
+                            <xsd:element name="name" type="name"/>
+                            <xsd:element name="available" type="saber_available"/>
+                            <xsd:element name="crystal" type="saber_crystal"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
