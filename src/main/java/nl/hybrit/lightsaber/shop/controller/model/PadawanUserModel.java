@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Set;
 
 /**
  * Padawan model class uses as payload
@@ -17,11 +18,12 @@ public class PadawanUserModel {
 
     @NotNull
     private String username;
+    @NotNull
     private String password;
     @Email
     private String email;
-    private String
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate dateOfBirth;
 
+    private Set<String> role;
 }

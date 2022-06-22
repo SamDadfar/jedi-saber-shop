@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Padawan resources
@@ -26,4 +27,9 @@ public class PadawanController {
         return ResponseEntity.ok(service.save(model));
     }
 
+    @GetMapping
+    @ResponseBody
+    public ResponseEntity<List<PadawanEntity>> getAll(){
+        return ResponseEntity.ok(service.findAll());
+    }
 }

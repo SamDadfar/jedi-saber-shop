@@ -4,8 +4,11 @@ import nl.hybrit.lightsaber.shop.controller.model.PadawanUserModel;
 import nl.hybrit.lightsaber.shop.repository.enums.CrystalEnum;
 import nl.hybrit.lightsaber.shop.repository.model.PadawanEntity;
 
+import java.util.List;
+
 public interface PadawanService {
 
+    List<PadawanEntity> findAll();
 
     /**
      * Find Padawan by id
