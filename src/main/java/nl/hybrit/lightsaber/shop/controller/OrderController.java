@@ -9,6 +9,7 @@ import nl.hybrit.lightsaber.shop.services.OrderService;
 import nl.hybrit.lightsabershop.model.Sabers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +32,7 @@ public class OrderController {
         return ResponseEntity.ok(service.findAll());
     }
 
+    @PreAuthorize("hasAuthority('ADMIN_JEDI')")
     @GetMapping("/{id}")
     @ResponseBody
     public ResponseEntity<OrderEntity> getOrderById(@PathVariable Long id) {
@@ -41,6 +43,7 @@ public class OrderController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ADMIN_JEDI')")
     @PostMapping("/saber/{id}")
     @ResponseBody
     public ResponseEntity<AddedOrderResponseModel> addOrder(@Valid @RequestBody Sabers sabers, @PathVariable long id) {

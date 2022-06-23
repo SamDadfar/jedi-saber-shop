@@ -15,10 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "padawan")
-public class PadawanEntity extends RepresantationModel {
+public class PadawanEntity {
 
     @Id
-    @JsonIgnore
     private Long id;
 
     @Column(name = "`force`")

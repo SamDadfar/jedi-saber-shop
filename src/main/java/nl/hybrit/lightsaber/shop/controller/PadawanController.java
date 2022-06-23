@@ -16,9 +16,10 @@ import java.util.List;
 /**
  * Padawan resources
  */
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("Jedisabershop/padawan")
-public class PadawanController extends ResouSu{
+public class PadawanController {
 
     @Autowired
     private PadawanService service;
