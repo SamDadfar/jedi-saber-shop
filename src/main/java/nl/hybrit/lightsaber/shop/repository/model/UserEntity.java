@@ -38,7 +38,7 @@ public class UserEntity {
     @NotBlank
     @Size(max = 120)
     private String password;
-    
+
     private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)

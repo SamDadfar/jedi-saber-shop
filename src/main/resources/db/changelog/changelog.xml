@@ -38,7 +38,7 @@
             <column autoIncrement="true" name="id" type="BIGINT(11)">
                 <constraints primaryKey="true" referencedTableName="user"/>
             </column>
-            <column name="power" type="BIGINT(5)">
+            <column name="force" type="BIGINT(5)">
                 <constraints nullable="false"/>
             </column>
             <column name="jedi" type="boolean" defaultValueBoolean="false"/>
@@ -47,13 +47,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet author="sam" id="create_orders_table">
+    <changeSet author="sam" id="create_order_table">
         <preConditions onFail="MARK_RAN">
             <not>
-                <tableExists tableName="orders"/>
+                <tableExists tableName="order"/>
             </not>
         </preConditions>
-        <createTable tableName="orders">
+        <createTable tableName="order">
             <column autoIncrement="true" name="id" type="BIGINT(11)">
                 <constraints primaryKey="true"/>
             </column>
@@ -64,7 +64,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="orders" baseColumnNames="padawan_id"
+        <addForeignKeyConstraint baseTableName="order" baseColumnNames="padawan_id"
                                  constraintName="FK_PADAWAN_ID_ORDER"
                                  referencedTableName="padawan" referencedColumnNames="id"/>
     </changeSet>
@@ -75,6 +75,9 @@
             </not>
         </preConditions>
         <createTable tableName="order_saber">
+            <column autoIncrement="true" name="id" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
             <column name="fk_order_id" type="BIGINT(11)">
                 <constraints nullable="false"/>
             </column>
@@ -82,10 +85,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="order_saber" columnNames="fk_order_id, fk_saber_id"/>
         <addForeignKeyConstraint baseTableName="order_saber" baseColumnNames="fk_order_id"
                                  constraintName="FK_ORDER_ID_ORDER_SABER"
-                                 referencedTableName="orders" referencedColumnNames="id"/>
+                                 referencedTableName="order" referencedColumnNames="id"/>
         <addForeignKeyConstraint baseTableName="order_saber" baseColumnNames="fk_saber_id"
                                  constraintName="FK_SABER_ID_ORDER_SABER"
                                  referencedTableName="saber" referencedColumnNames="id"/>
@@ -97,6 +99,9 @@
             </not>
         </preConditions>
         <createTable tableName="padawan_saber">
+            <column autoIncrement="true" name="id" type="BIGINT(11)">
+                <constraints primaryKey="true"/>
+            </column>
             <column name="fk_padawan_id" type="BIGINT(11)">
                 <constraints nullable="false"/>
             </column>
@@ -104,7 +109,6 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey tableName="padawan_saber" columnNames="fk_padawan_id, fk_saber_id"/>
         <addForeignKeyConstraint baseTableName="padawan_saber" baseColumnNames="fk_padawan_id"
                                  constraintName="FK_PADAWAN_ID_PADAWAN_SABER"
                                  referencedTableName="padawan" referencedColumnNames="id"/>

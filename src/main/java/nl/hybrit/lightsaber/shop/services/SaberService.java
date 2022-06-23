@@ -29,7 +29,7 @@ public interface SaberService {
         if (padawan.isAdult()) {
             return CrystalEnum.getPrice(ADULT_FORCE, crystalType.getValue());
         } else {
-            return CrystalEnum.getPrice(padawan.getPower(), crystalType.getValue());
+            return CrystalEnum.getPrice(padawan.getForce(), crystalType.getValue());
         }
     }
 }

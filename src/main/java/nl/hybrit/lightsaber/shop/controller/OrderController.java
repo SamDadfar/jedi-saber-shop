@@ -2,10 +2,8 @@ package nl.hybrit.lightsaber.shop.controller;
 
 
 import nl.hybrit.lightsaber.shop.controller.model.OrderModel;
-import nl.hybrit.lightsaber.shop.controller.model.PadawanUserModel;
 import nl.hybrit.lightsaber.shop.controller.model.response.AddedOrderResponseModel;
-import nl.hybrit.lightsaber.shop.repository.model.OrdersEntity;
-import nl.hybrit.lightsaber.shop.repository.model.PadawanEntity;
+import nl.hybrit.lightsaber.shop.repository.model.OrderEntity;
 import nl.hybrit.lightsaber.shop.repository.model.SaberEntity;
 import nl.hybrit.lightsaber.shop.services.OrderService;
 import nl.hybrit.lightsabershop.model.Sabers;
@@ -29,13 +27,13 @@ public class OrderController {
 
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<OrdersEntity>> getAll() {
+    public ResponseEntity<List<OrderEntity>> getAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<OrdersEntity> getOrderById(@PathVariable Long id) {
+    public ResponseEntity<OrderEntity> getOrderById(@PathVariable Long id) {
         try {
             return  ResponseEntity.ok(service.findById(id));
         } catch (IllegalArgumentException e) {
@@ -49,7 +47,7 @@ public class OrderController {
         OrderModel order = new OrderModel();
         order.setSabers(sabers);
         order.setPadawanId(id);
-        OrdersEntity savedOrder = service.seveOrder(order);
+        OrderEntity savedOrder = service.seveOrder(order);
         AddedOrderResponseModel response = new AddedOrderResponseModel();
         response.setLightSaberNames(savedOrder.getSabers().stream().map(SaberEntity::getCrystalName).collect(Collectors.toList()));
         response.setMessage("Order has been successfully created!");

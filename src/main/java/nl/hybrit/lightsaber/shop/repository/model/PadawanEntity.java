@@ -15,13 +15,14 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "padawan")
-public class PadawanEntity {
+public class PadawanEntity extends RepresantationModel {
 
     @Id
     @JsonIgnore
     private Long id;
 
-    private Integer power;
+    @Column(name = "`force`")
+    private Integer force;
     private Boolean jedi;
     @Column(name = "dob")
     private LocalDate dateOfBirth;
@@ -44,7 +45,7 @@ public class PadawanEntity {
     @Default
     public PadawanEntity(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        this.power = getPower();
+        this.force = getForce();
         this.jedi = isJedi();
     }
 
@@ -54,7 +55,7 @@ public class PadawanEntity {
         return Period.between(this.dateOfBirth, currentDate).getYears();
     }
 
-    public Integer getPower() {
+    public Integer getForce() {
         return getAge() * 10;
     }
 
@@ -67,7 +68,7 @@ public class PadawanEntity {
     }
 
     public Boolean isJedi() {
-        return this.power > ENOUGH_FORCE_AS_JEDI;
+        return this.force > ENOUGH_FORCE_AS_JEDI;
     }
 
     public Boolean isDissolve() {

@@ -18,7 +18,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("Jedisabershop/padawan")
-public class PadawanController {
+public class PadawanController extends ResouSu{
 
     @Autowired
     private PadawanService service;

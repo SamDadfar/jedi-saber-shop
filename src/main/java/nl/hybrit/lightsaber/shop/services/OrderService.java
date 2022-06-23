@@ -1,15 +1,15 @@
 package nl.hybrit.lightsaber.shop.services;
 
 import nl.hybrit.lightsaber.shop.controller.model.OrderModel;
-import nl.hybrit.lightsaber.shop.repository.model.OrdersEntity;
+import nl.hybrit.lightsaber.shop.repository.model.OrderEntity;
 
 import java.util.List;
 
 public interface OrderService {
 
-    OrdersEntity seveOrder(OrderModel orderModel);
+    OrderEntity seveOrder(OrderModel orderModel);
 
-    List<OrdersEntity> findAll();
+    List<OrderEntity> findAll();
 
-    OrdersEntity findById(long id);
+    OrderEntity findById(long id);
 }

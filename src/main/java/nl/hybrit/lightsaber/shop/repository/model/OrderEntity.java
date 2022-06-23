@@ -16,8 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "orders")
-public class OrdersEntity {
+@Table(name = "`order`")
+public class OrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

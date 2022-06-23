@@ -55,7 +55,7 @@ public class SaberShopController {
         CrystalEnum crystalEnum = CrystalEnum.fromValue(saber.getCrystal().getColor().value());
         PadawanEntity padawan = new PadawanEntity(dob);
         CalculatedForceModel response = new CalculatedForceModel();
-        response.setForce(padawan.getPower());
+        response.setForce(padawan.getForce());
         response.setNeededForce(padawanService.getNeededForce(padawan, crystalEnum));
         double crystalPrice = saberService.getSaberPrice(padawan, crystalEnum);
         response.setCrystalPrice(Formatter.getFormattedPrice(crystalPrice));
