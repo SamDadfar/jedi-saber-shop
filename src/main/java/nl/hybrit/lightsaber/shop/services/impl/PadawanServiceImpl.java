@@ -53,7 +53,7 @@ public class PadawanServiceImpl implements PadawanService {
     }
 
     @Override
-//    @Transactional
+    @Transactional
     public PadawanEntity save(PadawanUserModel model) {
         PadawanEntity entity = padawanMapper.map(model);
         entity.setSabers(new ArrayList<>());

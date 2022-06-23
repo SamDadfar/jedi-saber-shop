@@ -38,7 +38,7 @@
             <column autoIncrement="true" name="id" type="BIGINT(11)">
                 <constraints primaryKey="true" referencedTableName="user"/>
             </column>
-            <column name="force" type="BIGINT(5)">
+            <column name="power" type="BIGINT(5)">
                 <constraints nullable="false"/>
             </column>
             <column name="jedi" type="boolean" defaultValueBoolean="false"/>

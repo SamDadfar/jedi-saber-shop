@@ -31,7 +31,7 @@ public interface PadawanService {
      * @return calculated force
      */
     default float getNeededForce(PadawanEntity padawan, CrystalEnum crystalType) {
-        return CrystalEnum.getForceNeeded(padawan.getForce(), crystalType.getValue());
+        return CrystalEnum.getForceNeeded(padawan.getPower(), crystalType.getValue());
     }
 
 }

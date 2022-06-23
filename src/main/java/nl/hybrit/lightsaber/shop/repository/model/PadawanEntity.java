@@ -8,7 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -19,9 +18,10 @@ import java.util.List;
 public class PadawanEntity {
 
     @Id
+    @JsonIgnore
     private Long id;
 
-    private Integer force;
+    private Integer power;
     private Boolean jedi;
     @Column(name = "dob")
     private LocalDate dateOfBirth;
@@ -44,7 +44,7 @@ public class PadawanEntity {
     @Default
     public PadawanEntity(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        this.force = getForce();
+        this.power = getPower();
         this.jedi = isJedi();
     }
 
@@ -54,7 +54,7 @@ public class PadawanEntity {
         return Period.between(this.dateOfBirth, currentDate).getYears();
     }
 
-    public Integer getForce() {
+    public Integer getPower() {
         return getAge() * 10;
     }
 
@@ -67,7 +67,7 @@ public class PadawanEntity {
     }
 
     public Boolean isJedi() {
-        return this.force > ENOUGH_FORCE_AS_JEDI;
+        return this.power > ENOUGH_FORCE_AS_JEDI;
     }
 
     public Boolean isDissolve() {

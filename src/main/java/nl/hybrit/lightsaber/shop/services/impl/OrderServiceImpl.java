@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,17 +36,17 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrdersEntity seveOrder(OrderModel model) {
         OrdersEntity orderEntity = new OrdersEntity();
+        List<SaberEntity> saberEntities = new ArrayList<>();
         PadawanEntity padawan = padawanRepository.findById(model.getPadawanId()).orElseThrow(IllegalArgumentException::new);
         model.getSabers().getSaber().forEach((saber) -> {
             SaberEntity entity = saberRepository.findBySaberId(saber.getId())
                     .orElseThrow(IllegalArgumentException::new);
             entity.setAvailable(entity.getAvailable() - 1);
-            saberRepository.save(entity);
             padawan.getSabers().add(entity);
+            saberEntities.add(entity);
         });
-        padawanRepository.save(padawan);
         orderEntity.setPadawan(padawan);
-        orderEntity.setSabers(saberMapper.toSaberList(model.getSabers()));
+        orderEntity.setSabers(saberEntities);
         orderEntity.setCreatedAt(LocalDateTime.now());
         return orderRepository.save(orderEntity);
     }

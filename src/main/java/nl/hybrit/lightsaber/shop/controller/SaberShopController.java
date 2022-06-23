@@ -3,7 +3,6 @@ package nl.hybrit.lightsaber.shop.controller;
 import nl.hybrit.lightsaber.shop.controller.model.CalculatedForceModel;
 import nl.hybrit.lightsaber.shop.repository.enums.CrystalEnum;
 import nl.hybrit.lightsaber.shop.repository.model.PadawanEntity;
-import nl.hybrit.lightsaber.shop.services.OrderService;
 import nl.hybrit.lightsaber.shop.services.PadawanService;
 import nl.hybrit.lightsaber.shop.services.SaberService;
 import nl.hybrit.lightsaber.shop.util.Formatter;
@@ -56,7 +55,7 @@ public class SaberShopController {
         CrystalEnum crystalEnum = CrystalEnum.fromValue(saber.getCrystal().getColor().value());
         PadawanEntity padawan = new PadawanEntity(dob);
         CalculatedForceModel response = new CalculatedForceModel();
-        response.setForce(padawan.getForce());
+        response.setForce(padawan.getPower());
         response.setNeededForce(padawanService.getNeededForce(padawan, crystalEnum));
         double crystalPrice = saberService.getSaberPrice(padawan, crystalEnum);
         response.setCrystalPrice(Formatter.getFormattedPrice(crystalPrice));

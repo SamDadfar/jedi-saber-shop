@@ -20,6 +20,7 @@ import java.util.Set;
         {@UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")})
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +38,7 @@ public class UserEntity {
     @NotBlank
     @Size(max = 120)
     private String password;
-
+    
     private boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)

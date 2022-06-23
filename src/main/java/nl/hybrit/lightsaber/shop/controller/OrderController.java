@@ -35,11 +35,9 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<?> getOrderById(@PathVariable Long id) {
-        ResponseEntity<?> response;
+    public ResponseEntity<OrdersEntity> getOrderById(@PathVariable Long id) {
         try {
-            response = ResponseEntity.ok(service.findById(id));
-            return response;
+            return  ResponseEntity.ok(service.findById(id));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
